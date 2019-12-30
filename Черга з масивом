@@ -1,0 +1,129 @@
+#include <iostream>
+ 
+template <class T, int size>
+class Queue
+{
+    T queue[size]{};
+    int begin;
+    int end;
+    int count;
+public:
+    Queue(): begin{0}, end{0}, count{0} {};
+    bool empty() {return count == 0;};
+    bool full() {return count == size;};
+    bool enqueue(const T& el);
+    bool dequeue(T& el);
+    int length() {return count;};
+    void show();
+};
+ 
+template <class T, int size>
+bool Queue<T,size>::enqueue(const T& el)
+{
+    if (count < size)
+    {
+        queue[end] = el;
+        ++end %= size;
+        ++count;
+        return true;
+    }
+    return false;
+}
+template <class T, int size>
+bool Queue<T,size>::dequeue(T& el)
+{
+    if (count>0)
+    {
+        el = queue[begin];
+        queue[begin]=0; //HACK!
+        ++begin %= size;
+        --count;
+        return true;
+    }
+    return false;
+}
+ 
+template <class T, int size>
+void Queue<T,size>::show()
+{
+    for (const T& el: queue)
+    {
+        std::cout << el << ' ';
+    }
+    std::cout << '\n';
+}
+ 
+int main()
+{
+    Queue<int,10> q;
+    q.show();
+    std::cout << q.empty() << '\n';
+    std::cout << q.full() << '\n';
+ 
+    for (int i{1}; i<9; ++i)
+    {
+        q.enqueue(i);
+        q.show();
+    }
+ 
+    for (int i{1}; i<5; ++i)
+    {
+        int el{0};
+        q.dequeue(el);
+        std::cout << "El: " << el << '\n';
+        q.show();
+    }
+ 
+    for (int i{1}; i<9; ++i)
+    {
+        if ( q.enqueue(i) )
+        {
+            q.show();
+        }
+        else
+        {
+            std::cout << "FULL!\n";
+        }
+    }
+ 
+    for (int i{1}; i<20; ++i)
+    {
+        int el{0};
+        if (q.dequeue(el))
+        {
+            std::cout << "El: " << el << '\n';
+            q.show();
+        }
+        else
+        {
+            std::cout << "EMPTY!\n";
+        }
+    }
+ 
+    for (int i{1}; i<20; ++i)
+    {
+        if ( q.enqueue(i) )
+        {
+            q.show();
+        }
+        else
+        {
+            std::cout << "FULL!\n";
+        }
+    }
+ 
+    for (int i{1}; i<20; ++i)
+    {
+        int el{0};
+        if (q.dequeue(el))
+        {
+            std::cout << "El: " << el << '\n';
+            q.show();
+        }
+        else
+        {
+            std::cout << "EMPTY!\n";
+        }
+    }
+ 
+}
