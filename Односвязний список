@@ -80,6 +80,7 @@ public:
 			N->next = nullptr;
 			delete tail;
 			tail = N;
+			--size;
 			return;
 		}
 	}
@@ -90,6 +91,7 @@ public:
 			Node* N = head->next;
 			delete head;
 			head = N;
+			--size;
 			return;
 		}
 	}
