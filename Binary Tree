@@ -10,84 +10,196 @@ public:
 		Node* left;
 		Node(const T& data_, Node* right_ = nullptr, Node* left_ = nullptr) : data{ data_ }, right{ right_ }, left{ left_ }{};
 	};
-	private:
+private:
 	Node* root;
 public:
 	Tree() :root{ nullptr } {};
-	void add(const T& data)
+	//void add(const T& data)
+	//{
+	//	if (!root)
+	//	{
+	//		root = new Node{ data };
+	//	}
+	//	else
+	//	{
+	//		Add(data, root);
+	//	}
+	//}
+	//bool search(const T& data)
+	//{
+	//	if (!root)
+	//	{
+	//		return false;
+	//	}
+	//	else
+	//	{
+	//		return Search(data, root);
+	//	}
+	//}
+	//friend void Add(const T& data, Node* n)
+	//{
+	//	if (n->data > data)
+	//	{
+	//		if (n->left)
+	//		{
+	//			Add(data, n->left);
+	//		}
+	//		else
+	//		{
+	//			n->left = new Node{ data };
+	//		}
+	//	}
+	//	if (n->data < data)
+	//	{
+	//		if (n->right)
+	//		{
+	//			Add(data, n->right);
+	//		}
+	//		else
+	//		{
+	//			n->right = new Node{ data };
+	//		}
+	//	}
+	//}
+	//friend bool Search(const T& data, Node* n)
+	//{
+	//	if (n->data == data)
+	//	{
+	//		return true;
+	//	}
+	//	if (n->data > data)
+	//	{
+	//		if (n->left)
+	//		{
+	//			return Search(data, n->left);
+	//		}
+	//		else
+	//		{
+	//			return false;
+	//		}
+	//	}
+	//	if (n->data < data)
+	//	{
+	//		if (n->right)
+	//		{
+	//			return Search(data, n->right);
+	//		}
+	//		else
+	//		{
+	//			return false;
+	//		}
+	//	}
+	//}
+	//Node* get(T& data)
+	//{
+	//	if (n->data == data)
+	//	{
+	//		return n;
+	//	}
+	//	if (n->data > data)
+	//	{
+	//		if (n->left)
+	//		{
+	//			return Search(data, n->left);
+	//		}
+	//	}
+	//	if (n->data < data)
+	//	{
+	//		if (n->right)
+	//		{
+	//			return Search(data, n->right);
+	//		
+	//	}
+	//}
+	void Add(const T& data)
 	{
 		if (!root)
 		{
 			root = new Node{ data };
+			return;
 		}
-		else
+		Node* copy = root;
+		while (1)
 		{
-			Add(data, root);
-		}
-	}
-	bool search(const T& data)
-	{
-		if (!root)
-		{
-			return false;
-		}
-		else
-		{
-			return Search(data, root);
-		}
-	}
-	friend void Add(const T& data, Node* n)
-	{
-		if (n->data > data)
-		{
-			if (n->left)
+			if (copy->data > data)
 			{
-				Add(data, n->left);
+				if (!copy->left)
+				{
+					copy->left = new Node{ data };
+					break;
+				}
+				else
+				{
+					copy = copy->left;
+				}
 			}
-			else
+			if (copy->data < data)
 			{
-				n->left = new Node{ data };
+				if (!copy->right)
+				{
+					copy->right = new Node{ data };
+					break;
+				}
+				else
+				{
+					copy = copy->right;
+				}
 			}
-		}
-		if (n->data < data)
-		{
-			if (n->right)
+			if (copy->data == data)
 			{
-				Add(data, n->right);
-			}
-			else
-			{
-				n->right = new Node{ data };
+				return;
 			}
 		}
 	}
-	friend bool Search(const T& data, Node* n)
+	bool SearchBool(const T& data)
 	{
-		if (n->data == data)
+		if (get(data))
 		{
 			return true;
 		}
-		if (n->data > data)
+		return false;
+	}
+	Node* get(const T& data)const
+	{
+		if (!root)
 		{
-			if (n->left)
-			{
-				return Search(data, n->left);
-			}
-			else
-			{
-				return false;
-			}
+			return root;
 		}
-		if (n->data < data)
+		Node* copy = root;
+		while (1)
 		{
-			if (n->right)
+			if (copy->data > data)
 			{
-				return Search(data, n->right);
+				if (!copy->left)
+				{
+					return copy->left;
+				}
+				else
+				{
+					copy = copy->left;
+				}
 			}
-			else
+			if (copy->data < data)
 			{
-				return false;
+				if (!copy->right)
+				{
+					return copy->left;
+				}
+				else
+				{
+					copy = copy->right;
+				}
+			}
+			if (copy->data == data)
+			{
+				return copy;
 			}
 		}
 	}
+};
+
+class Car
+{
+	int carNum;
+	std::string str;
 };
