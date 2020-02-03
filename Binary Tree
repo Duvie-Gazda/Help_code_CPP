@@ -1,0 +1,93 @@
+#include <iostream>
+template <class T>
+class Tree
+{
+public:
+	struct Node
+	{
+		T data;
+		Node* right;
+		Node* left;
+		Node(const T& data_, Node* right_ = nullptr, Node* left_ = nullptr) : data{ data_ }, right{ right_ }, left{ left_ }{};
+	};
+	private:
+	Node* root;
+public:
+	Tree() :root{ nullptr } {};
+	void add(const T& data)
+	{
+		if (!root)
+		{
+			root = new Node{ data };
+		}
+		else
+		{
+			Add(data, root);
+		}
+	}
+	bool search(const T& data)
+	{
+		if (!root)
+		{
+			return false;
+		}
+		else
+		{
+			return Search(data, root);
+		}
+	}
+	friend void Add(const T& data, Node* n)
+	{
+		if (n->data > data)
+		{
+			if (n->left)
+			{
+				Add(data, n->left);
+			}
+			else
+			{
+				n->left = new Node{ data };
+			}
+		}
+		if (n->data < data)
+		{
+			if (n->right)
+			{
+				Add(data, n->right);
+			}
+			else
+			{
+				n->right = new Node{ data };
+			}
+		}
+	}
+	friend bool Search(const T& data, Node* n)
+	{
+		if (n->data == data)
+		{
+			return true;
+		}
+		if (n->data > data)
+		{
+			if (n->left)
+			{
+				return Search(data, n->left);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		if (n->data < data)
+		{
+			if (n->right)
+			{
+				return Search(data, n->right);
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+};
