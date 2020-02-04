@@ -1,2 +1,1 @@
-# Help_code_CPP
-Code CPP to help
+https://pastebin.com/Y6L5TMZJ - дв. список
