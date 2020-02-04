@@ -1,0 +1,60 @@
+#include <iostream>
+#include<chrono>
+class Parent
+{
+protected:
+    int id;
+public:
+    Parent(int id = 1) :id{ id } {};
+    virtual ~Parent() = default;
+    friend std::ostream& operator<<(std::ostream& out, Parent& rhs);
+    virtual std::ostream& print(std::ostream& out)
+    {
+        return out << "Parent id : " << id;
+    }
+    virtual std::istream& set(std::istream& in)
+    {
+        return in >> id;
+    }
+};
+std::ostream& operator <<(std::ostream& out, Parent& rhs)
+{
+    return rhs.print(out);
+}
+std::istream& operator >>(std::istream& in, Parent& rhs)
+{
+    return rhs.set(in);
+}
+class Child : public Parent
+{
+    std::string name;
+public:
+    Child(std::string name = "Child", int id = 0) :Parent(id), name{ name }{};
+    virtual ~Child() {};
+    virtual std::ostream& print(std::ostream& out) override
+    {
+        return out << "Child name "" << name << "" id : " << id;
+    }
+    virtual std::istream& set(std::istream& in)
+    {
+        return in >> id >> name;
+    }
+};
+int main()
+{
+    srand(time(0));
+    Parent* objects[4];
+    for (auto& object : objects)
+    {
+        object = rand() % 2 ? new Parent : new Child;
+    }
+    for (auto& object : objects)
+    {
+        std::cout << (typeid(*object) == typeid(Parent) ? "Parent (id) " : "Chld (id name)");
+        std::cin >> *object;
+    }
+    for (auto object : objects)
+    {
+        std::cout << *object << std::endl;
+    }
+}
